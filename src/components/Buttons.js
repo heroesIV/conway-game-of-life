@@ -53,33 +53,32 @@ function Buttons({
   const runningRef = useRef(running);
   runningRef.current = running;
 
-  const gridRef = useRef(grid);
-  gridRef.current = grid;
   const play = () => {
     if (!runningRef.current) return;
-    const newGrid = produce(gridRef.current, (gridCopy) => {
-      for (let i = 0; i < numRows; i++) {
-        for (let j = 0; j < numCols; j++) {
-          let neighbours = 0;
 
-          if (i > 0) if (gridRef.current[i - 1][j]) neighbours++;
-          if (i > 0 && j > 0) if (gridRef.current[i - 1][j - 1]) neighbours++;
-          if (i > 0 && j < numCols - 1)
-            if (gridRef.current[i - 1][j + 1]) neighbours++;
-          if (j < numCols - 1) if (gridRef.current[i][j + 1]) neighbours++;
-          if (j > 0) if (gridRef.current[i][j - 1]) neighbours++;
-          if (i < numRows - 1) if (gridRef.current[i + 1][j]) neighbours++;
-          if (i < numRows - 1 && j > 0)
-            if (gridRef.current[i + 1][j - 1]) neighbours++;
-          if (i < numRows - 1 && j < numCols - 1)
-            if (gridRef.current[i + 1][j + 1]) neighbours++;
-          if (gridRef.current[i][j] && (neighbours < 2 || neighbours > 3))
-            gridCopy[i][j] = false;
-          if (!gridRef.current[i][j] && neighbours === 3) gridCopy[i][j] = true;
+    setGrid((g) => {
+      return produce(g, (gridCopy) => {
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < numCols; j++) {
+            let neighbours = 0;
+
+            if (i > 0) if (g[i - 1][j]) neighbours++;
+            if (i > 0 && j > 0) if (g[i - 1][j - 1]) neighbours++;
+            if (i > 0 && j < numCols - 1) if (g[i - 1][j + 1]) neighbours++;
+            if (j < numCols - 1) if (g[i][j + 1]) neighbours++;
+            if (j > 0) if (g[i][j - 1]) neighbours++;
+            if (i < numRows - 1) if (g[i + 1][j]) neighbours++;
+            if (i < numRows - 1 && j > 0) if (g[i + 1][j - 1]) neighbours++;
+            if (i < numRows - 1 && j < numCols - 1)
+              if (g[i + 1][j + 1]) neighbours++;
+            if (g[i][j] && (neighbours < 2 || neighbours > 3))
+              gridCopy[i][j] = false;
+            if (!g[i][j] && neighbours === 3) gridCopy[i][j] = true;
+          }
         }
-      }
+      });
     });
-    setGrid(newGrid);
+
     setGenerations((prev) => prev + 1);
   };
 
