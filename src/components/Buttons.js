@@ -49,7 +49,6 @@ function Buttons({
 
   const pauseButton = () => {
     setRunning(!running);
-    clearInterval(intervalId);
   };
 
   const runningRef = useRef(running);
