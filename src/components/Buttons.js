@@ -39,7 +39,7 @@ function Buttons({
   const [running, setRunning] = useState(false);
 
   const playButton = () => {
-    clearInterval(intervalId);
+    // clearInterval(intervalId);
     intervalId = setInterval(play, speed);
   };
 
